@@ -1,24 +1,23 @@
-Device DTC  Service
--------------------
+Working with DTC Codes
+----------------------
 
-Get the list of all DTC Codes for a Device
-`````````````````````````````````````````````
+Get a list of DTCs for a Vehicle
+````````````````````````````````
 
-The DTC History Service provides historical information for DTC codes for a given vehicle.  Each time a new DTC code is seen, it triggers a DTC Event.  These events either resolve when the DTC code is no longer seen or remain "open" until the code is resolved.
+This provides historical record of DTC codes for a given vehicle.  Each time a new DTC code is seen, it triggers a DTC Event.  These events either resolve when the DTC code is no longer seen or remain "open" until the code is resolved.
 
 Request
 +++++++
-
 .. code-block:: json
 
       GET https://diagnostic.vin.li/api/v1/vehicles/47fa348e-c3fa-4cad-8272-61940eae7748/codes
       Accept: application/json
 
+
 The state query param may be used to filter the response. Valid values are active and inactive. These will filter the response to only include either DTC codes that are still on presently or not. The absence of the state query param will not filter the response and so the response will contain the full history DTC codes.
 
 Response
 ++++++++
-
 .. code-block:: json
 
       HTTP/1.1 200 OK
@@ -80,3 +79,88 @@ Response
           }
         }
       }
+
+Get a Specific DTC
+``````````````````
+
+This route returns a specific DTC occurrence.
+
+Request
++++++++
+.. code-block:: json
+
+      GET https://diagnostic.vin.li/api/v1/codes/313cc7d7-1ad6-491k-9e02-a3f48e62984a
+
+
+Response
+++++++++
+.. code-block:: json
+
+      HTTP/1.1 200 OK
+      Content-Type: application/json
+
+      {
+        "code": {
+          "id": "313cc7d7-1ad6-491k-9e02-a3f48e62984a",
+          "make": "generic",
+          "system": "powertrain",
+          "subSystem": "Ignition system or misfire",
+          "twoByte": {
+            "number": "P0301",
+            "description": "Cylinder 1 Misfire Detected"
+          },
+          "threeByte": {
+            "number": "P0301",
+            "ftb": "0",
+            "description": "Cylinder 1 Misfire Detected",
+            "fault": "No Fault Information Available",
+            "location": {
+              "sensor": "",
+              "bank": "",
+              "circuit": "",
+              "valve": "",
+              "cylinder": 1,
+              "camshaft": "",
+              "solenoid": "",
+              "regulator": "",
+              "controlModule": "",
+              "audioAmplifier": "",
+              "processingModule": ""
+            }
+          },
+          "links": {
+            "self": "https://diagnostic.vin.li/api/v1/codes/313cc7d7-1ad6-491k-9e02-a3f48e62984a"
+          }
+        }
+      }
+
+
+Battery Status
+``````````````
+This provides a general health status for a vehicle's battery. Possible statuses include:
+ * `green` indicates that the battery is likely to start
+ * `yellow` indicates that the battery may have issues starting
+ * `red` indicates a battery is likely to not start
+ * `null` indicates that Vinli could not determine the status based on the data provided
+
+
+ Request
+ +++++++
+ .. code-block:: json
+
+       GET https://diagnostic.vin.li/api/v1/vehicles/38ff2972-7fd2-4319-8389-b9a8b84a7c8f/battery_statuses/_current
+
+
+       Response
+       ++++++++
+       .. code-block:: json
+
+             HTTP/1.1 200 OK
+             Content-Type: application/json
+
+             {
+                "batteryStatus": {
+                  "status": "green",
+                  "timestamp": "2016-08-21T20:00:22.680Z"
+                }
+              }
