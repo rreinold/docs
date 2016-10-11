@@ -20,7 +20,7 @@ Unix Time
 
 * `1410111177893` -> `https://telemetry.vin.li/api/v1/devices/27a2ac50-d7bd-11e3-9c1a-0800200c9a66/snapshots?since=1410111177893`
 
-There is obviously a lot that could be discussed regarding the benefits and drawbacks of each style of date.  In general, Unix Time is completely unambiguous, is smaller in footprint (for URLs and storage), does not need to be URL encoded, and is available easily in all major lanuganges; however, ISO 8601 is much easier to read and debug as a human.
+There is obviously a lot that could be discussed regarding the benefits and drawbacks of each style of date.  In general, Unix Time is completely unambiguous, is smaller in footprint (for URLs and storage), does not need to be URL encoded, and is available easily in all major languages; however, ISO 8601 is much easier to read and debug as a human.
 
 In either case, Vinli will handle the dates without issue.
 
